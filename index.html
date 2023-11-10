@@ -4,11 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <title>Tabla de Tareas</title>
+  <title>Parcial JavaScript | Sergio Ballen</title>
 </head>
 <body>
   <div class="container">
-    <h1>Tabla de Tareas</h1>
+    <h1>Lista de Tareas</h1>
+    <div class="form-group">
+      <label for="filterState">Filtrar por Estado:</label>
+      <select class="form-control" id="filterState">
+        <option value="all">Todas</option>
+        <option value="cumplida">Cumplida</option>
+        <option value="noCumplida">No Cumplida</option>
+      </select>
+    </div>
+    
     <table class="table">
       <thead>
         <tr>

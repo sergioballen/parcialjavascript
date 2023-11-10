@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const taskTable = document.getElementById('taskTable'); 
   const addTaskForm = document.getElementById('addTaskForm'); 
+  const filterState = document.getElementById('filterState'); 
+
   function addTaskToTable(taskName, taskStatus, taskDate) {
     const row = document.createElement('tr');
 
@@ -8,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     taskCell.textContent = taskName;
 
     const stateCell = document.createElement('td');
-    stateCell.textContent = taskStatus === 'true' ? 'Cumplida' : 'No Cumplida';
+    stateCell.textContent = taskStatus ? 'Cumplida' : 'No Cumplida';
 
     const endCell = document.createElement('td');
     endCell.textContent = taskDate;
@@ -42,7 +44,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     addTaskToTable(taskName, taskStatus, taskDate);
 
-    
+   
     addTaskForm.reset();
   });
+
+  
+  filterState.addEventListener('change', function () {
+    updateTable();
+  });
+
+  function updateTable() {
+    const selectedState = filterState.value; 
+
+    taskTable.innerHTML = '';
+
+    for (const taskId in data.tasks) {
+      const task = data.tasks[taskId];
+      
+      if (selectedState === 'all' || 
+          (selectedState === 'cumplida' && task.state) || 
+          (selectedState === 'noCumplida' && !task.state)) {
+        addTaskToTable(task.task, task.state, task.end);
+      }
+    }
+  }
 });
