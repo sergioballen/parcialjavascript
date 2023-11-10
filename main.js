@@ -1,27 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
-  if (typeof data === 'object' && data.tasks) {
-    const taskTable = document.getElementById('taskTable'); 
+  const taskTable = document.getElementById('taskTable'); 
+  const addTaskForm = document.getElementById('addTaskForm'); 
+  function addTaskToTable(taskName, taskStatus, taskDate) {
+    const row = document.createElement('tr');
 
-    for (const taskId in data.tasks) {
-      const task = data.tasks[taskId];
-      const row = document.createElement('tr');
+    const taskCell = document.createElement('td');
+    taskCell.textContent = taskName;
 
-      const taskCell = document.createElement('td');
-      taskCell.textContent = task.task;
+    const stateCell = document.createElement('td');
+    stateCell.textContent = taskStatus === 'true' ? 'Cumplida' : 'No Cumplida';
 
-      const stateCell = document.createElement('td');
-      stateCell.textContent = task.state ? 'Cumplida' : 'No Cumplida';
+    const endCell = document.createElement('td');
+    endCell.textContent = taskDate;
 
-      const endCell = document.createElement('td');
-      endCell.textContent = task.end;
+    row.appendChild(taskCell);
+    row.appendChild(stateCell);
+    row.appendChild(endCell);
 
-      row.appendChild(taskCell);
-      row.appendChild(stateCell);
-      row.appendChild(endCell);
+    taskTable.appendChild(row);
+  }
 
-      taskTable.appendChild(row);
+  function loadTasksFromData() {
+    if (typeof data === 'object' && data.tasks) {
+      for (const taskId in data.tasks) {
+        const task = data.tasks[taskId];
+        addTaskToTable(task.task, task.state, task.end);
+      }
+    } else {
+      console.error('No se encontraron datos válidos en data.js');
     }
-  } else {
-    console.error('No se encontraron datos válidos en data.js');
-  }
+  }
+
+  loadTasksFromData();
+
+  addTaskForm.addEventListener('submit', function (e) {
+    e.preventDefault(); 
+
+    const taskName = document.getElementById('taskName').value;
+    const taskStatus = document.getElementById('taskStatus').value;
+    const taskDate = document.getElementById('taskDate').value;
+
+    addTaskToTable(taskName, taskStatus, taskDate);
+
+    
+    addTaskForm.reset();
+  });
 });
